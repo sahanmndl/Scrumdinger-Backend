@@ -2,11 +2,13 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import userRouter from "./routes/UserRoutes";
+import projectRouter from "./routes/ProjectRoutes";
 
 const app = express()
 app.use(cors())
 app.use(express.json({ limit: "30mb", extended: true }))
 app.use('/api/user', userRouter)
+app.use('/api/project', projectRouter)
 
 mongoose
   .connect(
