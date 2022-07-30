@@ -20,9 +20,10 @@ export const getProjects = async (req, res, next) => {
 export const createProject = async (req, res, next) => {
     const { title, description, image, user } = req.body
 
+    console.log(user, typeof(user))
     let userExists
     try {
-        userExists = await User.find(user)
+        userExists = await User.find({_id: user})
     } catch (err) {
         return console.log(err)
     }
@@ -38,12 +39,15 @@ export const createProject = async (req, res, next) => {
         user
     })
 
+    console.log(userExists[0])
+    console.log(project, project.id, typeof(project.id))
+
     try {
         const session = await mongoose.startSession()
         session.startTransaction()
         await project.save({session})
-        userExists.projects.push(project)
-        await userExists.save({session})
+        userExists[0].projects.push({_id: project.id})
+        await userExists[0].save({session})
         await session.commitTransaction()
     } catch (err) {
         console.log(err)
