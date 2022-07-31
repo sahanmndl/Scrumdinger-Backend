@@ -18,7 +18,7 @@ export const getProjects = async (req, res, next) => {
 }
 
 export const createProject = async (req, res, next) => {
-    const { title, description, image, priority, user } = req.body
+    const { title, description, image, category, priority, user } = req.body
 
     console.log(user, typeof(user))
     let userExists
@@ -36,6 +36,7 @@ export const createProject = async (req, res, next) => {
         title,
         description,
         image,
+        category,
         priority,
         user
     })
