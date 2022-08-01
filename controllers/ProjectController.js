@@ -62,7 +62,7 @@ export const createProject = async (req, res, next) => {
 }
 
 export const updateProject = async (req, res, next) => {
-    const { title, description, image, category, priority } = req.body
+    const { title, description, image, category, priority, duedate } = req.body
     const projectId = req.params.id
 
     let project
@@ -72,7 +72,8 @@ export const updateProject = async (req, res, next) => {
             description,
             image,
             category,
-            priority
+            priority,
+            duedate
         })
     } catch (err) {
         return console.log(err)
