@@ -23,6 +23,14 @@ const projectSchema = new Schema({
         type: Number,
         required: true
     },
+    duedate: {
+        type: Number,
+        required: true
+    },
+    timestamp: {
+        type: Number,
+        required: true
+    },
     user: {
         type: mongoose.Types.ObjectId,
         ref: 'User',
