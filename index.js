@@ -1,10 +1,13 @@
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
-import userRouter from "./routes/UserRoutes";
-import projectRouter from "./routes/ProjectRoutes";
+import userRouter from "./routes/UserRoutes.js";
+import projectRouter from "./routes/ProjectRoutes.js";
+import dotenv from 'dotenv';
 
 const app = express()
+
+dotenv.config()
 app.use(cors())
 app.use(express.json({ limit: "30mb", extended: true }))
 app.use('/api/user', userRouter)
@@ -12,13 +15,11 @@ app.use('/api/project', projectRouter)
 
 mongoose
   .connect(
-    "mongodb+srv://admin:admin12345@cluster0.ddwtt.mongodb.net/?retryWrites=true&w=majority",
+    process.env.MONGO_URL,
     { useNewUrlParser: true, useUnifiedTopology: true }
   )
-  .then(() => app.listen(8000))
+  .then(() => app.listen(process.env.PORT || 8000))
   .then(() =>
     console.log("connected")
   )
   .catch((err) => console.log(err));
-
-//admin12345
