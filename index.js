@@ -8,6 +8,7 @@ import dotenv from 'dotenv';
 const app = express()
 
 dotenv.config()
+
 app.use(cors())
 app.use(express.json({ limit: "30mb", extended: true }))
 app.use('/api/user', userRouter)
