@@ -3,18 +3,30 @@ import Project from "../models/Project.js";
 import User from "../models/User.js";
 
 export const getProjects = async (req, res, next) => {
+
+    const { page = 1, limit = 7 } = req.query
+
     let projects;
     try {
         projects = await Project.find().populate('user')
+                                .limit(limit * 1)
+                                .skip((page - 1) * limit)
+                                .exec()
+
+        if(!projects) {
+            return res.status(404).json({message: "No projects found!"})
+        }
+
+        const count = await Project.find().populate('user').countDocuments()
+
+        return res.status(200).json({
+            projects,
+            totalPages: Math.ceil(count / limit),
+            currentPage: page
+        })
     } catch (err) {
         return console.log(err)
     }
-
-    if(!projects) {
-        return res.status(404).json({message: "No projects found!"})
-    }
-
-    return res.status(200).json({projects})
 }
 
 export const createProject = async (req, res, next) => {
